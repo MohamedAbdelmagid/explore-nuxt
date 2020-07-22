@@ -17,3 +17,27 @@ export const state = () => ({
 		}
 	],
 })
+
+export const actions = {
+	fetchAllPosts({ commit }) {
+		return this.$axios.$get('posts').then(posts => commit('setPosts', posts))
+	},
+
+	async fetchPost({ state, commit }, id) {
+		let post = state.posts.find(post => post.id == id)
+		if (!post) {
+			console.log('Post is not exist in the state')
+			post = await this.$axios.$get(`posts/${id}`)
+		}
+		commit('setPost', post)
+	}
+}
+
+export const mutations = {
+	setPost(state, post) {
+		state.posts.push(post)
+	},
+	setPosts(state, posts) {
+		state.posts = posts
+	}
+}

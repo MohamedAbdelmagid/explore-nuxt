@@ -34,11 +34,14 @@
         id: this.$route.params.id,
       }
     },
+
+    async fetch ({store, params}) {
+      await store.dispatch('post/fetchPost', params.id)
+    },
     
-    async asyncData({ params, $axios }) {
-      let response = await $axios.get(`posts/${params.id}`)
-      return {
-        post: response.data
+    computed: {
+      post () {
+        return this.$store.state.post.posts.find(post => post.id == this.id)
       }
     },
   }

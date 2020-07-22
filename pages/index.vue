@@ -40,12 +40,15 @@
         ]
       }
     },
+    
+    async fetch({ store }) {
+      console.log('Fetching All Posts...!')
+      await store.dispatch('post/fetchAllPosts')
+    },
 
-    async asyncData({ params, $axios}) {
-      let response = await $axios.get('posts')
-      console.log('axios module !!')
-      return {
-        posts: response.data
+    computed: {
+      posts () {
+        return this.$store.state.post.posts
       }
     },
   }
