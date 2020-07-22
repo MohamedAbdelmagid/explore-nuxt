@@ -28,8 +28,6 @@
 </template>
 
 <script>
-  import axios from 'axios'
-
   export default {
     head () {
       return {
@@ -42,9 +40,10 @@
         ]
       }
     },
-    
-    async asyncData({isDev, route, store, env, params, query, req, res, redirect, error}) {
-      let response = await axios.get('https://jsonplaceholder.typicode.com/posts')
+
+    async asyncData({ params, $axios}) {
+      let response = await $axios.get('posts')
+      console.log('axios module !!')
       return {
         posts: response.data
       }

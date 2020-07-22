@@ -36,6 +36,7 @@ export default {
   ** https://nuxtjs.org/guide/plugins
   */
   plugins: [
+    '~/plugins/axios'
   ],
   /*
   ** Auto import components
@@ -58,7 +59,9 @@ export default {
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
-  axios: {},
+  axios: {
+    baseURL: 'https://jsonplaceholder.typicode.com'
+  },
   /*
   ** Build configuration
   ** See https://nuxtjs.org/api/configuration-build/
