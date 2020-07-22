@@ -2,12 +2,12 @@
   <div class="container">
     <article>
       <h1 class="title">{{ post.title }}</h1>
-      <p>{{ post.content }}</p>
+      <p>{{ post.body }}</p>
     </article>
     <aside>
       <h3>Posts you might like</h3>
       <ul>
-        <li v-for="post in relatedPosts" :key="post.id">
+        <li v-for="post in []" :key="post.id">
           <nuxt-link :to="{ name: 'posts-id', params: { id: post.id } }">{{ post.title }}</nuxt-link>
         </li>
       </ul>
@@ -16,13 +16,15 @@
 </template>
 
 <script>
+  import axios from 'axios'
+  
   export default {
     head () {
       return {
         title: this.post.title,
         meta: [
           { name: 'twitter:title', content: this.post.title},
-          { name: 'twitter:description', content: this.post.content},
+          { name: 'twitter:description', content: this.post.body},
           { name: 'twitter:image', content: 'https://i.imgur.com/UYP2umJ.png'},
           { name: 'twitter:card', content: 'summary_large_image'}
         ]
@@ -32,16 +34,13 @@
     data() {
       return {
         id: this.$route.params.id,
-
       }
     },
-
-    computed: {
-      post () {
-        return this.$store.state.post.posts.find(post => post.id === this.id)
-      },
-      relatedPosts () {
-        return this.$store.state.post.posts.filter(post => post.id !== this.id)
+    
+    async asyncData({isDev, route, store, env, params, query, req, res, redirect, error}) {
+      let response = await axios.get(`https://jsonplaceholder.typicode.com/posts/${params.id}`)
+      return {
+        post: response.data
       }
     },
   }

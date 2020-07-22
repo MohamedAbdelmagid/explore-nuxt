@@ -28,6 +28,8 @@
 </template>
 
 <script>
+  import axios from 'axios'
+
   export default {
     head () {
       return {
@@ -40,11 +42,13 @@
         ]
       }
     },
-    computed: {
-      posts () {
-        return this.$store.state.post.posts
+    
+    async asyncData({isDev, route, store, env, params, query, req, res, redirect, error}) {
+      let response = await axios.get('https://jsonplaceholder.typicode.com/posts')
+      return {
+        posts: response.data
       }
-    }
+    },
   }
 </script>
 
